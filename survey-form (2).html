@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>用寫作放大學生優勢｜演講前調查</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow: #F5C842;
+    --yellow-light: #FEF8DC;
+    --yellow-deep: #C9A000;
+    --lavender: #C9B8E8;
+    --lavender-light: #E0D5F5;
+    --lavender-deep: #7B5EA7;
+    --cream: #FAF6EE;
+    --cream-dark: #F0E9D8;
+    --ink: #2C2118;
+    --ink-soft: #5C4D3C;
+    --ink-muted: #9C8C7C;
+    --white: #FFFFFF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--lavender-light);
+    color: var(--ink);
+    font-family: 'Noto Sans TC', sans-serif;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Background texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: 
+      radial-gradient(circle at 10% 10%, rgba(255,255,255,0.3) 0%, transparent 40%),
+      radial-gradient(circle at 90% 90%, rgba(123,94,167,0.15) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .header-badge {
+    display: inline-block;
+    background: var(--lavender-deep);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+
+  .header h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(22px, 5vw, 30px);
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+
+  .header h1 span {
+    color: var(--lavender-deep);
+  }
+
+  .header-desc {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.8;
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 16px 20px;
+    background: rgba(255,255,255,0.6);
+    border-left: 3px solid var(--yellow-deep);
+    border-radius: 0 8px 8px 0;
+    text-align: left;
+  }
+
+  .header-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin-top: 12px;
+  }
+
+  .header-time::before {
+    content: '⏱';
+    font-size: 13px;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .section:nth-child(2) { animation-delay: 0.1s; }
+  .section:nth-child(3) { animation-delay: 0.2s; }
+  .section:nth-child(4) { animation-delay: 0.3s; }
+  .section:nth-child(5) { animation-delay: 0.4s; }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .section-tag {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: var(--lavender-deep);
+    background: var(--lavender-light);
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--cream-dark);
+  }
+
+  /* Question card */
+  .question {
+    background: var(--yellow-light);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+    border: 1.5px solid var(--yellow);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .question:focus-within {
+    border-color: var(--yellow-deep);
+    box-shadow: 0 4px 20px rgba(245,200,66,0.3);
+  }
+
+  .question-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 14px;
+    line-height: 1.6;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .q-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    background: var(--yellow);
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-top: 1px;
+  }
+
+  .question-hint {
+    font-size: 11px;
+    color: var(--ink-muted);
+    margin-bottom: 12px;
+    margin-left: 30px;
+  }
+
+  /* Radio / Checkbox options */
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-left: 30px;
+  }
+
+  .option-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1.5px solid var(--cream-dark);
+    background: var(--cream);
+    transition: all 0.15s;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  .option-item:hover {
+    border-color: var(--lavender);
+    background: var(--lavender-light);
+    color: var(--ink);
+  }
+
+  .option-item input[type="radio"],
+  .option-item input[type="checkbox"] {
+    accent-color: var(--lavender-deep);
+    width: 16px;
+    height: 16px;
+    min-width: 16px;
+    cursor: pointer;
+  }
+
+  .option-item:has(input:checked) {
+    border-color: var(--lavender-deep);
+    background: var(--lavender-light);
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* Other input */
+  .other-input {
+    margin-left: 30px;
+    margin-top: 8px;
+  }
+
+  .other-input input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--cream-dark);
+    border-radius: 8px;
+    background: var(--cream);
+    font-size: 13px;
+    font-family: 'Noto Sans TC', sans-serif;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .other-input input:focus {
+    border-color: var(--lavender);
+  }
+
+  .other-input input::placeholder {
+    color: var(--ink-muted);
+  }
+
+  /* Scale */
+  .scale-wrapper {
+    margin-left: 30px;
+  }
+
+  .scale-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--ink-muted);
+    margin-bottom: 10px;
+  }
+
+  .scale-options {
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+  }
+
+  .scale-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+
+  .scale-item input[type="radio"] {
+    display: none;
+  }
+
+  .scale-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--cream-dark);
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-muted);
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+
+  .scale-item:hover .scale-dot {
+    border-color: var(--lavender);
+    background: var(--lavender-light);
+    color: var(--lavender-deep);
+  }
+
+  .scale-item input:checked ~ .scale-dot {
+    background: var(--lavender-deep);
+    border-color: var(--lavender-deep);
+    color: var(--white);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(123,94,167,0.3);
+  }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--cream-dark), transparent);
+    margin: 8px 0 16px;
+  }
+
+  /* Submit */
+  .submit-area {
+    text-align: center;
+    margin-top: 40px;
+    animation: fadeUp 0.8s ease 0.5s both;
+  }
+
+  .submit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--ink);
+    color: var(--yellow);
+    border: none;
+    padding: 16px 48px;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: 'Noto Sans TC', sans-serif;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .submit-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--lavender-deep);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .submit-btn:hover::before {
+    transform: translateX(0);
+  }
+
+  .submit-btn span {
+    position: relative;
+    z-index: 1;
+  }
+
+  .submit-btn:hover {
+    color: var(--white);
+    box-shadow: 0 8px 30px rgba(44,33,24,0.25);
+    transform: translateY(-2px);
+  }
+
+  .submit-hint {
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin-top: 12px;
+  }
+
+  /* Success */
+  .success-screen {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .success-icon {
+    width: 72px;
+    height: 72px;
+    background: var(--yellow);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin: 0 auto 24px;
+    animation: pop 0.4s ease both;
+  }
+
+  .success-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+
+  .success-msg {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.8;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .success-response {
+    margin-top: 32px;
+    padding: 20px 24px;
+    background: var(--white);
+    border-radius: 12px;
+    border-left: 4px solid var(--yellow);
+    text-align: left;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.8;
+    font-style: italic;
+  }
+
+  /* Error */
+  .error-msg {
+    display: none;
+    background: #FFF0F0;
+    border: 1.5px solid #FFCCCC;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #CC4444;
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  /* Loading */
+  .loading {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-top: 16px;
+  }
+
+  .loading-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--lavender-deep);
+    border-radius: 50%;
+    animation: bounce 0.6s ease infinite alternate;
+  }
+
+  .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+  .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    margin-top: 48px;
+    font-size: 12px;
+    color: var(--ink-muted);
+    animation: fadeUp 0.8s ease 0.6s both;
+  }
+
+  .footer strong {
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0.5); opacity: 0; }
+    80% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  @keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-6px); }
+  }
+
+  @media (max-width: 480px) {
+    .container { padding: 24px 16px 60px; }
+    .scale-dot { width: 30px; height: 30px; font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-badge">優勢寫作教育｜師訓調查</div>
+    <h1>用寫作<span>放大</span>學生優勢<br>演講前調查</h1>
+    <div class="header-desc">
+      沒有標準答案，您的直覺最珍貴。<br>
+      這份調查幫助今天的內容更貼近您真實的教學現場。
+    </div>
+    <div class="header-time">約 60 秒可填完</div>
+  </div>
+
+  <!-- Form -->
+  <form id="surveyForm">
+
+    <!-- Part 1 基本資料 -->
+    <div class="section">
+      <div class="section-label">
+        <span class="section-tag">基本資料</span>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <span class="q-num">1</span>
+          任教年段
+        </div>
+        <div class="options" id="q1">
+          <label class="option-item">
+            <input type="radio" name="q1" value="國小"> 國小
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q1" value="國中"> 國中
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q1" value="高中"> 高中
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q1" value="跨年段"> 跨年段
+          </label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <span class="q-num">2</span>
+          教學年資
+        </div>
+        <div class="options">
+          <label class="option-item">
+            <input type="radio" name="q2" value="5年以下"> 5年以下
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q2" value="5–15年"> 5–15年
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q2" value="15年以上"> 15年以上
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Part 2 教學現場 -->
+    <div class="section">
+      <div class="section-label">
+        <span class="section-tag">教學現場</span>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <span class="q-num">3</span>
+          教學現場，您最常遇到的情況是？
+        </div>
+        <div class="question-hint">可複選</div>
+        <div class="options">
+          <label class="option-item">
+            <input type="checkbox" name="q3" value="學生找不到想說的話"> 學生找不到想說的話
+          </label>
+          <label class="option-item">
+            <input type="checkbox" name="q3" value="學生有想法但表達不出來"> 學生有想法但表達不出來
+          </label>
+          <label class="option-item">
+            <input type="checkbox" name="q3" value="學生寫得出來但少了自己的味道"> 學生寫得出來但少了自己的味道
+          </label>
+          <label class="option-item">
+            <input type="checkbox" name="q3" value="學生很努力但文章打動不了人"> 學生很努力但文章打動不了人
+          </label>
+        </div>
+        <div class="other-input">
+          <input type="text" name="q3_other" placeholder="其他（選填）">
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <span class="q-num">4</span>
+          您對目前寫作教學方式的滿意程度？
+        </div>
+        <div class="scale-wrapper">
+          <div class="scale-labels">
+            <span>還在尋找</span>
+            <span>很滿意</span>
+          </div>
+          <div class="scale-options">
+            <label class="scale-item">
+              <input type="radio" name="q4" value="1">
+              <div class="scale-dot">1</div>
+            </label>
+            <label class="scale-item">
+              <input type="radio" name="q4" value="2">
+              <div class="scale-dot">2</div>
+            </label>
+            <label class="scale-item">
+              <input type="radio" name="q4" value="3">
+              <div class="scale-dot">3</div>
+            </label>
+            <label class="scale-item">
+              <input type="radio" name="q4" value="4">
+              <div class="scale-dot">4</div>
+            </label>
+            <label class="scale-item">
+              <input type="radio" name="q4" value="5">
+              <div class="scale-dot">5</div>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Part 3 學生觀察 -->
+    <div class="section">
+      <div class="section-label">
+        <span class="section-tag">學生觀察</span>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <span class="q-num">5</span>
+          您觀察到學生寫作卡住，根本原因通常是？
+        </div>
+        <div class="question-hint">可複選</div>
+        <div class="options">
+          <label class="option-item">
+            <input type="checkbox" name="q5" value="閱讀量不足"> 閱讀量不足
+          </label>
+          <label class="option-item">
+            <input type="checkbox" name="q5" value="邏輯結構不清"> 邏輯結構不清
+          </label>
+          <label class="option-item">
+            <input type="checkbox" name="q5" value="不夠了解自己"> 不夠了解自己
+          </label>
+          <label class="option-item">
+            <input type="checkbox" name="q5" value="沒有空間寫真正想說的"> 沒有空間寫真正想說的
+          </label>
+        </div>
+        <div class="other-input">
+          <input type="text" name="q5_other" placeholder="其他（選填）">
+        </div>
+      </div>
+    </div>
+
+    <!-- Part 4 制度現場 -->
+    <div class="section">
+      <div class="section-label">
+        <span class="section-tag">制度現場</span>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <span class="q-num">6</span>
+          每週能用於引導寫作思考的時間？
+        </div>
+        <div class="options">
+          <label class="option-item">
+            <input type="radio" name="q6" value="幾乎沒有"> 幾乎沒有
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q6" value="15分鐘以內"> 15分鐘以內
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q6" value="15–30分鐘"> 15–30分鐘
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q6" value="30分鐘以上"> 30分鐘以上
+          </label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <span class="q-num">7</span>
+          現有評分標準讓您感覺教學空間有多大？
+        </div>
+        <div class="scale-wrapper">
+          <div class="scale-labels">
+            <span>幾乎沒有空間</span>
+            <span>空間充裕</span>
+          </div>
+          <div class="scale-options">
+            <label class="scale-item">
+              <input type="radio" name="q7" value="1">
+              <div class="scale-dot">1</div>
+            </label>
+            <label class="scale-item">
+              <input type="radio" name="q7" value="2">
+              <div class="scale-dot">2</div>
+            </label>
+            <label class="scale-item">
+              <input type="radio" name="q7" value="3">
+              <div class="scale-dot">3</div>
+            </label>
+            <label class="scale-item">
+              <input type="radio" name="q7" value="4">
+              <div class="scale-dot">4</div>
+            </label>
+            <label class="scale-item">
+              <input type="radio" name="q7" value="5">
+              <div class="scale-dot">5</div>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="other-input" style="margin-top:16px;">
+        <input type="text" name="q7_reason" placeholder="用一句話說明核心原因（選填）">
+      </div>
+    </div>
+
+    <!-- Part 5 關於優勢 -->
+    <div class="section">
+      <div class="section-label">
+        <span class="section-tag">關於優勢</span>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <span class="q-num">8</span>
+          您認為學生的寫作優勢來自？
+        </div>
+        <div class="question-hint">可複選</div>
+        <div class="options">
+          <label class="option-item">
+            <input type="checkbox" name="q8" value="語言天賦"> 語言天賦
+          </label>
+          <label class="option-item">
+            <input type="checkbox" name="q8" value="閱讀積累"> 閱讀積累
+          </label>
+          <label class="option-item">
+            <input type="checkbox" name="q8" value="生命經驗"> 生命經驗
+          </label>
+          <label class="option-item">
+            <input type="checkbox" name="q8" value="思維方式"> 思維方式
+          </label>
+        </div>
+        <div class="other-input">
+          <input type="text" name="q8_other" placeholder="其他（選填）">
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <span class="q-num">9</span>
+          您相信每個學生都有可以被放大的寫作優勢嗎？
+        </div>
+        <div class="scale-wrapper">
+          <div class="scale-labels">
+            <span>還沒看到可能</span>
+            <span>完全相信</span>
+          </div>
+          <div class="scale-options">
+            <label class="scale-item">
+              <input type="radio" name="q9" value="1">
+              <div class="scale-dot">1</div>
+            </label>
+            <label class="scale-item">
+              <input type="radio" name="q9" value="2">
+              <div class="scale-dot">2</div>
+            </label>
+            <label class="scale-item">
+              <input type="radio" name="q9" value="3">
+              <div class="scale-dot">3</div>
+            </label>
+            <label class="scale-item">
+              <input type="radio" name="q9" value="4">
+              <div class="scale-dot">4</div>
+            </label>
+            <label class="scale-item">
+              <input type="radio" name="q9" value="5">
+              <div class="scale-dot">5</div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <span class="q-num">10</span>
+          今天最希望帶走什麼？
+        </div>
+        <div class="question-hint">可複選</div>
+        <div class="options">
+          <label class="option-item">
+            <input type="checkbox" name="q10" value="可以直接用的教學方法"> 可以直接用的教學方法
+          </label>
+          <label class="option-item">
+            <input type="checkbox" name="q10" value="看待學生的新視角"> 看待學生的新視角
+          </label>
+          <label class="option-item">
+            <input type="checkbox" name="q10" value="AI時代的教學策略"> AI時代的教學策略
+          </label>
+          <label class="option-item">
+            <input type="checkbox" name="q10" value="幫學生找到寫作聲音的方式"> 幫學生找到寫作聲音的方式
+          </label>
+        </div>
+        <div class="other-input">
+          <input type="text" name="q10_other" placeholder="其他（選填）">
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="submit-area">
+      <button type="submit" class="submit-btn">
+        <span>送出我的回答</span>
+      </button>
+      <div class="loading" id="loading">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <span>傳送中</span>
+      </div>
+      <div class="error-msg" id="errorMsg">送出失敗，請稍後再試。</div>
+      <p class="submit-hint">您的回答將幫助老師更精準思考，優化寫作教育的可能</p>
+    </div>
+
+  </form>
+
+  <!-- Success screen -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">✦</div>
+    <div class="success-title">謝謝您的回答</div>
+    <div class="success-msg">您的經驗是今天最珍貴的素材。<br>期待接下來與您一起探索。</div>
+    <div class="success-response" id="successResponse"></div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <strong>優勢寫作教育</strong>｜郭繐綺老師
+  </div>
+
+</div>
+
+<script>
+  // ==========================================
+  // 設定說明：
+  // 請將下方的 APPS_SCRIPT_URL 換成您的
+  // Google Apps Script 網址
+  // ==========================================
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzbtdNhCTxK0upOue8cuGYNmogEbtbrbvP_cZvhuY_-kP-EXtDcnL4GrhdGgnOjFjizsw/exec';
+
+  // Q9 回饋對應（根據最難引導的學生類型）
+  const q5Responses = {
+    '閱讀量不足': '「素材不是在書裡找的，是在自己的生命裡找的。」',
+    '邏輯結構不清': '「結構是思維的外衣，思維清晰了，結構自然就長出來了。」',
+    '不夠了解自己': '「寫作，是一個人最誠實的自我認識。」',
+    '沒有空間寫真正想說的': '「當學生被允許說真話，寫作就開始了。」'
+  };
+
+  document.getElementById('surveyForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const loading = document.getElementById('loading');
+    const errorMsg = document.getElementById('errorMsg');
+
+    // Collect data
+    const data = {};
+
+    // Radio questions
+    ['q1','q2','q4','q6','q7','q9'].forEach(name => {
+      const el = form.querySelector(`input[name="${name}"]:checked`);
+      data[name] = el ? el.value : '';
+    });
+
+    // Checkbox questions
+    ['q3','q5','q8','q10'].forEach(name => {
+      const checked = [...form.querySelectorAll(`input[name="${name}"]:checked`)].map(el => el.value);
+      data[name] = checked.join('、');
+    });
+
+    // Other inputs
+    ['q3_other','q5_other','q7_reason','q8_other','q10_other'].forEach(name => {
+      const el = form.querySelector(`input[name="${name}"]`);
+      data[name] = el ? el.value.trim() : '';
+    });
+
+    data.timestamp = new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
+
+    // Show loading
+    loading.style.display = 'flex';
+    errorMsg.style.display = 'none';
+
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      // Success
+      form.style.display = 'none';
+      const successScreen = document.getElementById('successScreen');
+      successScreen.style.display = 'block';
+
+      // Personalized response based on Q5
+      const q5Vals = data.q5 ? data.q5.split('、') : [];
+      let responseText = '';
+      for (const val of q5Vals) {
+        if (q5Responses[val]) {
+          responseText = q5Responses[val];
+          break;
+        }
+      }
+      if (responseText) {
+        document.getElementById('successResponse').textContent = responseText;
+      }
+
+    } catch (err) {
+      loading.style.display = 'none';
+      errorMsg.style.display = 'block';
+    }
+  });
+</script>
+
+</body>
+</html>
